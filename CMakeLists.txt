@@ -10,13 +10,13 @@ project(my_project)
 pico_sdk_init()
 
 # rest of your project
-add_executable(hello_world
+add_executable(blink
     src/main.c
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(hello_world pico_stdlib pico_cyw43_arch_none)
+target_link_libraries(blink pico_stdlib)
 
 # create map/bin/hex/uf2 file in addition to ELF.
-pico_add_extra_outputs(hello_world)
+pico_add_extra_outputs(blink)
 # example_auto_set_url(hello_world)
