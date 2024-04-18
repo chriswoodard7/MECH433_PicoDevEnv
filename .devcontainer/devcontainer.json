@@ -3,7 +3,7 @@
   "dockerFile": "Dockerfile",
   "context": ".",
   "workspaceFolder": "/workspace",
-  "postCreateCommand": "mkdir -p build && cd build && cmake .. -DPICO_BOARD=pico_w",
+  "postCreateCommand": "mkdir -p build && cd build && cmake .. -DPICO_BOARD=pico",
   "shutdownAction": "stopContainer",
   "customizations": {
     "vscode": {
