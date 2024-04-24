@@ -15,7 +15,7 @@ add_executable(cdc_io_adc
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(cdc_io_adc pico_stdlib)
+target_link_libraries(cdc_io_adc pico_stdlib hardware_adc)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(cdc_io_adc)
