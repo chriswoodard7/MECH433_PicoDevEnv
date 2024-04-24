@@ -50,7 +50,8 @@ int main() {
 
       for (i=0; i<num; i++) {
         uint16_t result = adc_read();
-        printf("adc: %d\r\n", result);
+        float result_f = (float)result/4095.0*3.3;
+        printf("adc: %.1fV\r\n", result_f);
         sleep_ms(10);
       }
     }
