@@ -127,15 +127,15 @@ int main()
     // inside do sleep_ms(10)
 
     // send sine wave
-    // for (iw=0; iw < TABLE_SIZE; iw++){
-    //   write_register(0,samples_sine[iw]);
-    //   sleep_ms(10);
-    // }
-
-    // send triangle wave
     for (iw=0; iw < TABLE_SIZE; iw++){
-      write_register(1,samples_tri[iw]);
+      write_register(0,samples_sine[iw]);
       sleep_ms(10);
     }
+
+    // // send triangle wave
+    // for (iw=0; iw < TABLE_SIZE; iw++){
+    //   write_register(1,samples_tri[iw]);
+    //   sleep_ms(10);
+    // }
   }
 }
