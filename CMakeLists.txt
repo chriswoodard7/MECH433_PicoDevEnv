@@ -15,8 +15,11 @@ add_executable(pico_zero
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(pico_zero pico_stdlib)
+target_link_libraries(pico_zero pico_stdlib hardware_adc hardware_irq hardware_uart pico_binary_info)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(pico_zero)
+
+pico_enable_stdio_usb(pico_zero 1)
+pico_enable_stdio_uart(pico_zero 0)
 # example_auto_set_url(hello_world)
