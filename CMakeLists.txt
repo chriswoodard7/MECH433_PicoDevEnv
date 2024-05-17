@@ -15,7 +15,7 @@ add_executable(rc_motor
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(rc_motor pico_stdlib pico_cyw43_arch_none)
+target_link_libraries(rc_motor pico_stdlib hardware_pwm)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(rc_motor)
