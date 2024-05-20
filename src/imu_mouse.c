@@ -31,6 +31,10 @@
 #define GYRO_ZOUT_L  0x48
 #define WHO_AM_I     0x75
 
+// function prototypes
+void chip_init();
+void read_sensor();
+
 // hardware registers
 int main()
 {
@@ -57,39 +61,39 @@ int main()
     // sleep_ms(500);
 
     // read the data from imu sensor
-    float data_array[7];
-    read_sensor(&data_array);
+    float data_array[7] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+    read_sensor(data_array);
 
     // print data
-    printf("X-Acceleration: %.3f\r\n", data_array[0]);
-    printf("Y-Acceleration: %.3f\r\n", data_array[1]);
-    printf("Z-Acceleration: %.3f\r\n", data_array[2]);
-    printf("X-Gyro Value: %.3f\r\n", data_array[4]);
-    printf("Y-Gyro Value: %.3f\r\n", data_array[5]);
-    printf("Z-Gyro Value: %.3f\r\n", data_array[6]);
-    printf("Temperature: %.3f\r\n", data_array[3]);
-    sleep_ms(10);
+    printf("X-Acceleration: %.2f g\r\n", data_array[0]);
+    printf("Y-Acceleration: %.2f g\r\n", data_array[1]);
+    printf("Z-Acceleration: %.2f g\r\n", data_array[2]);
+    printf("X-Gyro Value: %.2f degrees/s\r\n", data_array[4]);
+    printf("Y-Gyro Value: %.2f degrees/s\r\n", data_array[5]);
+    printf("Z-Gyro Value: %.2f degrees/s\r\n", data_array[6]);
+    printf("Temperature: %.2f C\r\n", data_array[3]);
+    sleep_ms(1000);
   }
 }
 
 void chip_init(){
   // turn on the IMU
-  uint8_t on_reg = PWR_MGMT_1;
-  uint8_t on_msg = 0x00;
-  i2c_write_blocking(i2c_default, ADDR, &on_reg, 1, true);  // true to keep master control of bus
-  i2c_read_blocking(i2c_default, ADDR, on_msg, 1, false);
+  uint8_t on_reg[2] = {PWR_MGMT_1, 0x00};
+  // uint8_t on_msg = 0x00;
+  i2c_write_blocking(i2c_default, ADDR, on_reg, 2, true);  // true to keep master control of bus
+  // i2c_write_blocking(i2c_default, ADDR, &on_msg, 1, false);
 
   // enable accel
-  uint8_t on_accel = ACCEL_CONFIG;
-  uint8_t aconfig_msg = 0x00;
-  i2c_write_blocking(i2c_default, ADDR, &on_accel, 1, true);  // true to keep master control of bus
-  i2c_read_blocking(i2c_default, ADDR, aconfig_msg, 1, false);
+  uint8_t on_accel[2] = {ACCEL_CONFIG, 0x00};
+  // uint8_t aconfig_msg = 0x00;
+  i2c_write_blocking(i2c_default, ADDR, on_accel, 2, true);  // true to keep master control of bus
+  // i2c_write_blocking(i2c_default, ADDR, &aconfig_msg, 1, false);
 
   // enable gyro
-  uint8_t on_gyro = GYRO_CONFIG;
-  uint8_t gconfig_msg = 0b00011000;
-  i2c_write_blocking(i2c_default, ADDR, &on_accel, 1, true);  // true to keep master control of bus
-  i2c_read_blocking(i2c_default, ADDR, gconfig_msg, 1, false);
+  uint8_t on_gyro[2] = {GYRO_CONFIG, 0b00011000};
+  // uint8_t gconfig_msg = 0b00011000;
+  i2c_write_blocking(i2c_default, ADDR, on_accel, 2, true);  // true to keep master control of bus
+  // i2c_write_blocking(i2c_default, ADDR, &gconfig_msg, 1, false);
 }
 
 void read_sensor(float *data_array){
@@ -97,38 +101,38 @@ void read_sensor(float *data_array){
   // all of these bytes are right next to each other in memory so read 14 bytes
 
   uint8_t accel_reg = ACCEL_XOUT_H;
-  uint8_t sensor_data[14];
+  int8_t sensor_data[14];
 
   i2c_write_blocking(i2c_default, ADDR, &accel_reg, 1, true);  // true to keep master control of bus
   i2c_read_blocking(i2c_default, ADDR, sensor_data, 14, false);
 
   // recombine accel data
   // x acceleration
-  uint16_t xacc_byte = ((sensor_data[0] << 8) | sensor_data[1]);
+  int16_t xacc_byte = ((sensor_data[0] << 8) | sensor_data[1]);
   data_array[0] = xacc_byte*0.000061;
 
   // y acceleration
-  uint16_t yacc_byte = ((sensor_data[2] << 8) | sensor_data[3]);
+  int16_t yacc_byte = ((sensor_data[2] << 8) | sensor_data[3]);
   data_array[1] = yacc_byte*0.000061;
 
   // z acceleration
-  uint16_t zacc_byte = ((sensor_data[4] << 8) | sensor_data[5]);
+  int16_t zacc_byte = ((sensor_data[4] << 8) | sensor_data[5]);
   data_array[2] = zacc_byte*0.000061;
 
   // recombine temp data
-  uint16_t temp_byte = ((sensor_data[6] << 8) | sensor_data[7]);
+  int16_t temp_byte = ((sensor_data[6] << 8) | sensor_data[7]);
   data_array[3] = temp_byte/340.00 + 36.53;
 
   // recombine gyro data
   // x acceleration
-  uint16_t xgyro_byte = ((sensor_data[8] << 8) | sensor_data[9]);
+  int16_t xgyro_byte = ((sensor_data[8] << 8) | sensor_data[9]);
   data_array[4] = xgyro_byte*0.007630;
 
   // y acceleration
-  uint16_t ygyro_byte = ((sensor_data[10] << 8) | sensor_data[11]);
+  int16_t ygyro_byte = ((sensor_data[10] << 8) | sensor_data[11]);
   data_array[5] = ygyro_byte*0.007630;
 
   // z acceleration
-  uint16_t zgyro_byte = ((sensor_data[12] << 8) | sensor_data[13]);
+  int16_t zgyro_byte = ((sensor_data[12] << 8) | sensor_data[13]);
   data_array[6] = zgyro_byte*0.007630;
 }
