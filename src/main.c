@@ -27,7 +27,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "/pico-sdk/lib/tinyusb/hw/bsp/board.h"
+#include "/pico-sdk/lib/tinyusb/hw/bsp/rp2040/board.h"
+#include "/pico-sdk/lib/tinyusb/src/tusb_option.h"
 #include "/pico-sdk/lib/tinyusb/src/tusb.h"
 
 #include "usb_descriptors.h"
