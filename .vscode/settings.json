@@ -1,7 +1,6 @@
 {
     "files.associations": {
-        "binary_info.h": "c",
-        "stdlib.h": "c",
-        "stdio.h": "c"
+        "usb_descriptors.h": "c",
+        "stdio_usb.h": "c"
     }
 }

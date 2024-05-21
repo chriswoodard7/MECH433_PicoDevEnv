@@ -12,10 +12,11 @@ pico_sdk_init()
 # rest of your project
 add_executable(imu_mouse
     src/imu_mouse.c
+    src/usb_descriptors.c
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(imu_mouse pico_stdlib pico_binary_info hardware_i2c pico_stdio_usb)
+target_link_libraries(imu_mouse pico_stdlib pico_binary_info hardware_i2c pico_stdio_usb pico_unique_id tinyusb_device tinyusb_board bsp_board pico)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(imu_mouse)
