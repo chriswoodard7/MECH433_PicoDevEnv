@@ -72,7 +72,7 @@ int main()
     printf("Y-Gyro Value: %.2f degrees/s\r\n", data_array[5]);
     printf("Z-Gyro Value: %.2f degrees/s\r\n", data_array[6]);
     printf("Temperature: %.2f C\r\n", data_array[3]);
-    sleep_ms(1000);
+    sleep_ms(100);
   }
 }
 
