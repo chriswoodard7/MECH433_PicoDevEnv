@@ -15,7 +15,7 @@ add_executable(i2c_io
 )
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(i2c_io pico_stdlib hardware_i2c)
+target_link_libraries(i2c_io pico_stdlib hardware_i2c pico_stdio_usb pico_binary_info)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(i2c_io)
